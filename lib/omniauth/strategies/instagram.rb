@@ -9,6 +9,12 @@ module OmniAuth
         :token_url => 'https://api.instagram.com/oauth/access_token'
       }
 
+      def authorize_params
+        super.tap do |params|
+          params['scope'] = request.params['scope'] if request.params['scope']
+        end
+      end
+
       def request_phase
         options[:scope] ||= 'basic'
         options[:response_type] ||= 'code'
